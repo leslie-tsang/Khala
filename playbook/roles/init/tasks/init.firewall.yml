@@ -1,0 +1,17 @@
+---
+- name: firewall -> init -> launch
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: firewall -> init -> port
+  firewalld:
+    port: '{{ item.port }}/{{ item.type }}'
+    state: '{{ item.state }}'
+    permanent: '{{ item.permanent }}'
+    offline: yes
+    immediate: yes
+  with_items:
+    - { name: 'http', type: tcp, port: 80, state: enabled, permanent: yes }
+    - { name: 'https', type: tcp, port: 443, state: enabled, permanent: yes }
