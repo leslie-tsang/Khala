@@ -1,0 +1,9 @@
+---
+- hosts: target
+  vars:
+    var_clean_up: true
+    var_remote_fetch: true
+    var_runtime_folder: /tmp/files
+
+  roles:
+    - init
