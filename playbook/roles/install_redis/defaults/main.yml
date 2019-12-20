@@ -1,0 +1,8 @@
+---
+var_redis_url: http://download.redis.io/releases
+var_redis_version: 5.0.7
+var_redis_check_sum_256_list: {
+  5.0.5: 2139009799d21d8ff94fc40b7f36ac46699b9e1254086299f8d3b223ca54a375,
+  5.0.6: 6624841267e142c5d5d5be292d705f8fb6070677687c5aad1645421a936d22b3,
+  5.0.7: 61db74eabf6801f057fd24b590232f2f337d422280fd19486eca03be87d3a82b,
+}

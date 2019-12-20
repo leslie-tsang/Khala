@@ -1,0 +1,6 @@
+---
+# redis configure
+var_redis_dir: 'redis-{{ var_redis_version }}'
+var_redis_name: 'redis-{{ var_redis_version }}.tar.gz'
+var_redis_url_download: '{{ var_redis_url }}/{{ var_redis_name }}'
+var_redis_check_sum_256: '{{ var_redis_check_sum_256_list[ var_redis_version ] }}'

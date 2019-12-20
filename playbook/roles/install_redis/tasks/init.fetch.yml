@@ -1,0 +1,40 @@
+---
+- name: redis -> fetch env
+  stat:
+    path: '{{ var_runtime_folder }}/{{ var_redis_name }}'
+    checksum_algorithm: sha256
+  register: var_redis
+
+- block:
+  - name: reids -> upload
+    copy:
+      src: '{{ item.src }}'
+      dest: '{{ item.dest }}'
+    with_items:
+      - { src: '{{ var_redis_name }}', dest: '{{ var_runtime_folder }}' }
+    when:
+      - var_remote_fetch == false
+
+  - name: redis -> download
+    get_url:
+      url: '{{ item.url }}'
+      dest: '{{ item.dest }}'
+      checksum: sha256:{{ item.checksum }}
+      mode: 0644
+      timeout: 300
+    with_items:
+      - { url: '{{ var_redis_url_download }}', dest: '{{ var_runtime_folder }}', checksum: '{{ var_redis_check_sum_256 }}' }
+    when:
+      - var_remote_fetch != false
+
+  when:
+    - var_redis.stat.exists == false or var_redis.stat.checksum != var_redis_check_sum_256
+
+# extract
+- name: redis -> extract
+  unarchive:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    remote_src: yes
+  with_items:
+    - { src: '{{ var_runtime_folder }}/{{ var_redis_name }}', dest: '{{ var_runtime_folder }}' }
