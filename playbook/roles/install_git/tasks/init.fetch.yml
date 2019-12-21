@@ -1,0 +1,40 @@
+---
+- name: git -> fetch env
+  stat:
+    path: '{{ var_runtime_folder }}/{{ var_git_name }}'
+    checksum_algorithm: sha256
+  register: var_git
+
+- block:
+  - name: git -> upload
+    copy:
+      src: '{{ item.src }}'
+      dest: '{{ item.dest }}'
+    with_items:
+      - { src: '{{ var_git_name }}', dest: '{{ var_runtime_folder }}' }
+    when:
+      - var_remote_fetch == false
+
+  - name: git -> download
+    get_url:
+      url: '{{ item.url }}'
+      dest: '{{ item.dest }}'
+      checksum: sha256:{{ item.checksum }}
+      mode: 0644
+      timeout: 300
+    with_items:
+      - { url: '{{ var_git_url_download }}', dest: '{{ var_runtime_folder }}', checksum: '{{ var_git_check_sum_256 }}' }
+    when:
+      - var_remote_fetch != false
+
+  when:
+    - var_git.stat.exists == false or var_git.stat.checksum != var_git_check_sum_256
+
+# extract
+- name: git -> extract
+  unarchive:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    remote_src: yes
+  with_items:
+    - { src: '{{ var_runtime_folder }}/{{ var_git_name }}', dest: '{{ var_runtime_folder }}' }

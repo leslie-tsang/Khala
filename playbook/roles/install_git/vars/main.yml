@@ -1,0 +1,6 @@
+---
+# git setting
+var_git_dir: 'git-{{ var_git_version }}'
+var_git_name: 'git-{{ var_git_version }}.tar.gz'
+var_git_url_download: '{{ var_git_url }}/{{ var_git_name }}'
+var_git_check_sum_256: '{{ var_git_check_sum_256_list[ var_git_version ] }}'

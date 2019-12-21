@@ -1,0 +1,22 @@
+---
+- import_tasks: init.env.yml
+
+- import_tasks: init.fetch.yml
+
+- name: git -> configure
+  shell: |
+    ./configure
+  args:
+    chdir: '{{ var_runtime_folder }}/{{ var_git_dir }}'
+
+- name: git -> compile
+  make:
+    target: all
+    chdir: '{{ var_runtime_folder }}/{{ var_git_dir }}'
+    params:
+      --jobs: '{{ ansible_processor_vcpus }}'
+
+- name: git -> install
+  make:
+    target: install
+    chdir: '{{ var_runtime_folder }}/{{ var_git_dir }}'
