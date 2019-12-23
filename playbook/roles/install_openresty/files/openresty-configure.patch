@@ -1,0 +1,46 @@
+--- a/configure
++++ b/configure
+@@ -323,17 +323,28 @@ for my $opt (@ARGV) {
+ 
+     } elsif ($opt =~ /^--add-module=(.*)/) {
+ 
+-        my $mod_path = File::Spec->rel2abs($1);
++        my ($mod_path, $bundle_path) = (File::Spec->rel2abs($1), File::Spec->rel2abs('bundle'));
++
++        if ($mod_path =~ /^$bundle_path(.*)/) {
++            $mod_path = '..'.$1;
++        }
++        
+         push @ngx_opts, "--add-module=$mod_path";
+ 
+     } elsif ($opt =~ /^--add-dynamic-module=(.*)/) {
+ 
+-        my $mod_path = File::Spec->rel2abs($1);
++        my ($mod_path, $bundle_path) = (File::Spec->rel2abs($1), File::Spec->rel2abs('bundle'));
++
++        if ($mod_path =~ /^$bundle_path(.*)/) {
++            $mod_path = '..'.$1;
++        }
++
+         push @ngx_opts, "--add-dynamic-module=$mod_path";
+ 
+     } elsif ($opt =~ /^--with-(openssl|pcre|zlib|libatomic|md5|sha1)=(.*)/) {
+ 
+-        my ($lib, $path) = ($1, $2);
++        my ($lib, $path, $bundle_path) = ($1, $2, File::Spec->rel2abs('bundle'));
++
+         if ($lib eq 'openssl' && $OS eq 'darwin') {
+             if (`uname -a` =~ /\bx86_64\b/) {
+                 $ENV{KERNEL_BITS} = 64;
+@@ -341,6 +352,11 @@ for my $opt (@ARGV) {
+             }
+         }
+         $path = File::Spec->rel2abs($path);
++
++        if ($path =~ /^$bundle_path(.*)/) {
++            $path = '..'.$1;
++        }
++
+         push @ngx_opts, "--with-$lib=$path";
+ 
+     } elsif ($opt =~ /^--sbin-path=(.*)/) {

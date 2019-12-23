@@ -1,0 +1,7 @@
+---
+- name: openresty -> patch -> fetch env
+  unarchive:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { name: 'lua-var-nginx-module', src: 'lua-var-nginx-module-0.4.tar.gz', dest: '{{ var_runtime_folder }}/{{ var_openresty_bundle_dir }}' }

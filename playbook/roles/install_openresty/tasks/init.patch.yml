@@ -1,0 +1,47 @@
+---
+- name: openresty -> patch -> fetch env
+  shell: printf {{ var_runtime_folder }}/{{ var_openresty_bundle_dir }}/nginx-*/src
+  register: var_openresty_nginx
+
+
+- name: openresty -> patch -> server tag
+  replace:
+    path: '{{ var_openresty_nginx.stdout }}/{{ item.path }}'
+    regexp: 'openresty'
+    replace: '{{ var_openresty_server_tag }}'
+  with_items:
+    - { path: 'core/nginx.h' }
+    - { path: 'http/ngx_http_special_response.c' }
+
+
+- name: openresty -> patch -> remove http header's server section
+  shell: |
+    cp {{ item.path }} {{ item.path }}.bak && \
+    awk 'BEGIN{mark=0}/{/{if(mark > 0){ mark++ }}/if \(r->headers_out.server == NULL\) \{/{ mark++ }{if(mark > 0){print "//", $0} else {print}}/}/{if(mark > 0){ mark-- }}' \
+    {{ item.path }}.bak > {{ item.path }}
+  args:
+    chdir: '{{ var_openresty_nginx.stdout }}'
+  with_items:
+    - { path: 'http/ngx_http_header_filter_module.c' }
+    - { path: 'http/v2/ngx_http_v2_filter_module.c' }
+
+
+- name: openresty -> openssl -> patch
+  patch:
+    src: '{{ var_runtime_folder }}/{{ var_openresty_dir }}/patches/{{ item.src }}.patch'
+    basedir: '{{ var_runtime_folder }}/{{ var_openresty_bundle_dir }}/openssl-{{ var_openssl_version }}'
+    strip: 1
+    remote_src: yes
+  with_items:
+    - { src: 'openssl-1.1.0d-sess_set_get_cb_yield' }
+    - { src: 'openssl-1.1.0j-parallel_build_fix' }
+    # - { src: 'openssl-1.1.1c-sess_set_get_cb_yield' }
+
+
+- name: openresty -> configure -> patch
+  patch:
+    src: '{{ item.src }}'
+    basedir: '{{ item.dest }}'
+    strip: 1
+  with_items:
+    - { src: 'openresty-configure.patch', dest: '{{ var_runtime_folder }}/{{ var_openresty_dir }}' }

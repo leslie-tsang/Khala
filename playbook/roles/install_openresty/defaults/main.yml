@@ -1,0 +1,25 @@
+---
+# build setting
+var_openresty_server_tag: ice-frog
+
+# pcre setting
+var_pcre_url: https://ftp.pcre.org/pub/pcre
+var_pcre_version: 8.43
+var_pcre_check_sum_256_list: {
+  8.43: ae236dc25d7e0e738a94e103218e0085eb02ff9bd98f637b6e061a48decdb433,
+}
+
+# openssl setting
+var_openssl_url: https://www.openssl.org/source
+var_openssl_version: 1.1.0l
+var_openssl_check_sum_256_list: {
+  1.1.0l: 74a2f756c64fd7386a29184dc0344f4831192d61dc2481a93a4c5dd727f41148,
+  1.1.1d: 1e3a91bc1f9dfce01af26026f856e064eab4c8ee0a8f457b5ae30b40b8b711f2,
+}
+
+# openresty setting
+var_openresty_url: https://openresty.org/download
+var_openresty_version: 1.15.8.2
+var_openresty_check_sum_256_list: {
+  1.15.8.2: 436b4e84d547a97a18cf7a2522daf819da8087b188468946b5a89c0dd1ca5d16,
+}
