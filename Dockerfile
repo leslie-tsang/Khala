@@ -11,3 +11,7 @@ RUN yum install -y wget openssh-clients \
  && yum install -y ${VAR_ANSIBLE_VERSION} \
  && yum clean all \
  && rm -rf *.rpm
+
+COPY entrypoint.sh .
+
+ENTRYPOINT [ "/bin/bash", "/root/entrypoint.sh" ]
