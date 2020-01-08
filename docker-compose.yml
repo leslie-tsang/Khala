@@ -14,6 +14,7 @@ services:
       - ANSIBLE_SSH_RETRIES=5
       - ANSIBLE_HOST_KEY_CHECKING=False
       - ANSIBLE_REMOTE_TEMP=/tmp/.ansible/tmp
+      # - ANSIBLE_REMOTE_PRIVATE_KEY=private.pem
 
     command: ["bash"]
     working_dir: /root/playbook
