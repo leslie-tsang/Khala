@@ -11,12 +11,13 @@
 - name: openresty -> configure
   shell: |
     ./configure \
+      --prefix={{ var_openresty_prefix }} \
       --with-luajit \
       --with-threads \
       --with-pcre-jit \
       --with-http_v2_module \
       --with-http_realip_module \
-      --with-pcre=bundle/pcre-{{var_pcre_version}} \
+      --with-pcre=bundle/pcre-{{ var_pcre_version }} \
       --with-openssl=bundle/openssl-{{ var_openssl_version }} \
       --add-module=bundle/lua-var-nginx-module-0.4
 

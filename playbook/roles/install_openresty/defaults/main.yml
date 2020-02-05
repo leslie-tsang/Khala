@@ -1,5 +1,6 @@
 ---
 # build setting
+var_openresty_prefix: /usr/local/openresty
 var_openresty_server_tag: ice-frog
 
 # pcre setting
