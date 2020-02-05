@@ -5,7 +5,9 @@
 
 - name: git -> configure
   shell: |
-    ./configure
+    ./configure \
+      --prefix={{ var_git_prefix }}
+
   args:
     chdir: '{{ var_runtime_folder }}/{{ var_git_dir }}'
 
