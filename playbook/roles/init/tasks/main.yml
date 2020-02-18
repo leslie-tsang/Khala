@@ -13,6 +13,19 @@
 
 - import_tasks: init.firewall.yml
 
+- block:
+  - name: system -> hostname -> init
+    shell: 'hostnamectl set-hostname {{ hostname }}'
+
+  - name: system -> hostname -> apply -> reboot
+    reboot:
+      reboot_timeout: '{{ ansible_default_reboot_timeout }}'
+
+  when:
+    - hostname is defined 
+    - hostname != ansible_hostname
+
+
 - name: create runtime folder
   file:
     path: '{{ var_runtime_folder }}'

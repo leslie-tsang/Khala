@@ -1,5 +1,6 @@
 ---
 - name: system -> motify limit configure
+  # /etc/security/limits.conf
   pam_limits:
     domain: '{{ item.domain }}'
     limit_type: '{{ item.limit_type }}'
