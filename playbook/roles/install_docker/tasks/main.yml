@@ -13,10 +13,14 @@
 
 - name: docker -> docker-compose -> install
   copy:
-    src: '{{ var_runtime_folder }}/{{ var_docker_docker_compose_name }}'
-    dest: '/usr/bin/docker-compose'
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
     mode: '0755'
     remote_src: yes
+  with_items:
+    - { name: 'docker-compose', src: '{{ var_runtime_folder }}/{{ var_docker_docker_compose_name }}', dest: '/usr/bin/docker-compose' }
+    # extend module
+    - { name: 'ctop', src: '{{ var_runtime_folder }}/{{ var_docker_ctop_name }}', dest: '/usr/bin/ctop' }
 
 - name: docker -> launch
   service:

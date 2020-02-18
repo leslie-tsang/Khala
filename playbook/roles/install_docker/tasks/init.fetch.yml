@@ -32,7 +32,9 @@
       - { src: '{{ var_docker_ce_name }}', dest: '{{ var_runtime_folder }}' }
       - { src: '{{ var_docker_ce_cli_name }}', dest: '{{ var_runtime_folder }}' }
       - { src: '{{ var_docker_containerd_name }}', dest: '{{ var_runtime_folder }}' }
-      - { src: '{{ var_docker_docker_compose_name }}', dest: '{{ var_runtime_folder }}' }
+      - { src: 'docker-compose/{{ var_docker_compose_version }}/{{ var_docker_docker_compose_name }}', dest: '{{ var_runtime_folder }}' }
+      # extend module
+      - { src: '{{ var_docker_ctop_name }}', dest: '{{ var_runtime_folder }}' }
     when:
       - var_remote_fetch == false
 
@@ -47,7 +49,9 @@
       - { url: '{{ var_docker_url }}/{{ var_docker_ce_name }}', dest: '{{ var_runtime_folder }}', checksum: '{{ var_docker_ce_check_sum_256 }}' }
       - { url: '{{ var_docker_url }}/{{ var_docker_ce_cli_name }}', dest: '{{ var_runtime_folder }}', checksum: '{{ var_docker_ce_cli_check_sum_256 }}' }
       - { url: '{{ var_docker_url }}/{{ var_docker_containerd_name }}', dest: '{{ var_runtime_folder }}', checksum: '{{ var_docker_containerd_check_sum_256 }}' }
-      - { url: '{{ var_docker_compose_url }}/{{ var_docker_docker_compose_name }}', dest: '{{ var_runtime_folder }}', checksum: '{{ var_docker_compose_check_sum_256 }}' } 
+      - { url: '{{ var_docker_compose_url_download }}/{{ var_docker_docker_compose_name }}', dest: '{{ var_runtime_folder }}', checksum: '{{ var_docker_compose_check_sum_256 }}' }
+      # extend module
+      - { url: '{{ var_docker_ctop_url_download }}/{{ var_docker_ctop_name }}', dest: '{{ var_runtime_folder }}', checksum: '{{ var_docker_ctop_check_sum_256 }}' }
     when:
       - var_remote_fetch != false
 

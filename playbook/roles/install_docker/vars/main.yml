@@ -1,5 +1,9 @@
 ---
 # docker version setting
+var_docker_ce_version: '{{ var_docker_ce_version_basic }}.el{{ var_os_centos_version }}'
+var_docker_ce_cli_version: '{{ var_docker_ce_cli_version_basic }}.el{{ var_os_centos_version }}'
+var_docker_containerd_version: '{{ var_docker_containerd_version_basic }}.el{{ var_os_centos_version }}'
+
 var_docker_ce_name: 'docker-ce-{{ var_docker_ce_version }}.x86_64.rpm'
 var_docker_ce_cli_name: 'docker-ce-cli-{{ var_docker_ce_cli_version }}.x86_64.rpm'
 var_docker_containerd_name: 'containerd.io-{{ var_docker_containerd_version }}.x86_64.rpm'
@@ -9,3 +13,14 @@ var_docker_ce_check_sum_256: '{{ var_docker_ce_check_sum_256_list[ var_docker_ce
 var_docker_ce_cli_check_sum_256: '{{ var_docker_ce_cli_check_sum_256_list[ var_docker_ce_cli_version ] }}'
 var_docker_containerd_check_sum_256: '{{ var_docker_containerd_check_sum_256_list[ var_docker_containerd_version ] }}'
 var_docker_compose_check_sum_256: '{{ var_docker_compose_check_sum_256_list[ var_docker_compose_version ] }}'
+
+# docker download setting
+var_docker_compose_url_download: '{{ var_docker_compose_url }}/{{ var_docker_compose_version }}'
+
+
+# docker extend module
+var_docker_ctop_name: 'ctop-{{ var_docker_ctop_version }}-linux-amd64'
+
+var_docker_ctop_check_sum_256: '{{ var_docker_ctop_check_sum_256_list[ var_docker_ctop_version ] }}'
+
+var_docker_ctop_url_download: '{{ var_docker_ctop_url }}/v{{ var_docker_ctop_version }}'
