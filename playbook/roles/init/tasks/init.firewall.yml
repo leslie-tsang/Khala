@@ -12,6 +12,4 @@
     permanent: '{{ item.permanent }}'
     offline: yes
     immediate: yes
-  with_items:
-    - { name: 'http', type: tcp, port: 80, state: enabled, permanent: yes }
-    - { name: 'https', type: tcp, port: 443, state: enabled, permanent: yes }
+  with_items: '{{ var_firewall_policy_list }}'

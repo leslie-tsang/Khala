@@ -1,3 +1,8 @@
 ---
 
 ansible_default_reboot_timeout: 300
+
+
+var_firewall_policy_list:
+  - { name: 'http', type: tcp, port: 80, state: enabled, permanent: yes }
+  - { name: 'https', type: tcp, port: 443, state: enabled, permanent: yes }
