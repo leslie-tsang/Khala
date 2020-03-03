@@ -3,10 +3,12 @@
 
 - import_tasks: init.fetch.yml
 
+
 - name: redis -> compile
   make:
     target: all
     chdir: '{{ var_runtime_folder }}/{{ var_redis_dir }}'
+
 
 - name: redis -> install
   make:

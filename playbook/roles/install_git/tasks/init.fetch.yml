@@ -5,6 +5,7 @@
     checksum_algorithm: sha256
   register: var_git
 
+
 - block:
   - name: git -> upload
     copy:
@@ -14,6 +15,7 @@
       - { src: '{{ var_git_name }}', dest: '{{ var_runtime_folder }}' }
     when:
       - var_remote_fetch == false
+
 
   - name: git -> download
     get_url:
@@ -29,6 +31,7 @@
 
   when:
     - var_git.stat.exists == false or var_git.stat.checksum != var_git_check_sum_256
+
 
 # extract
 - name: git -> extract

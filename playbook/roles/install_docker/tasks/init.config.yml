@@ -6,6 +6,7 @@
       key: jenkins
       fail_key: no
 
+
   - name: docker -> group -> jenkins -> join
     user:
       name: jenkins

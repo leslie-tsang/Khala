@@ -1,6 +1,7 @@
 ---
 - import_tasks: init.fetch.yml
 
+
 - name: docker -> install
   yum:
     name:
@@ -10,6 +11,7 @@
     state: present
   notify:
     - docker -> restart
+
 
 - name: docker -> docker-compose -> install
   copy:
@@ -22,10 +24,12 @@
     # extend module
     - { name: 'ctop', src: '{{ var_runtime_folder }}/{{ var_docker_ctop_name }}', dest: '/usr/bin/ctop' }
 
+
 - name: docker -> launch
   service:
     name: docker
     state: started
     enabled: yes
+
 
 - import_tasks: init.config.yml

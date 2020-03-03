@@ -5,6 +5,7 @@
     checksum_algorithm: sha256
   register: var_redis
 
+
 - block:
   - name: reids -> upload
     copy:
@@ -14,6 +15,7 @@
       - { src: '{{ var_redis_name }}', dest: '{{ var_runtime_folder }}' }
     when:
       - var_remote_fetch == false
+
 
   - name: redis -> download
     get_url:
@@ -29,6 +31,7 @@
 
   when:
     - var_redis.stat.exists == false or var_redis.stat.checksum != var_redis_check_sum_256
+
 
 # extract
 - name: redis -> extract

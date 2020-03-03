@@ -5,11 +5,13 @@
     checksum_algorithm: sha256
   register: var_docker
 
+
 - name: docker -> docker-compose -> fecth env
   stat:
     path: '{{ var_runtime_folder }}/{{ var_docker_docker_compose_name }}'
     checksum_algorithm: sha256
   register: var_docker_compose
+
 
 - name: docker -> upload -> detect
   set_fact:
@@ -17,12 +19,14 @@
   when:
     - var_docker.stat.exists == false or var_docker.stat.checksum != var_docker_ce_check_sum_256
 
+
 - name: docker -> upload -> docker-compose 
   set_fact:
     var_upload: true
   when:
     - var_docker_compose.stat.exists == false or var_docker_compose.stat.checksum != var_docker_compose_check_sum_256
     
+
 - block:
   - name: docker -> upload
     copy:
@@ -37,6 +41,7 @@
       - { src: '{{ var_docker_ctop_name }}', dest: '{{ var_runtime_folder }}' }
     when:
       - var_remote_fetch == false
+
 
   - name: docker -> download
     get_url:
