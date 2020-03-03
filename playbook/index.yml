@@ -6,4 +6,22 @@
     var_runtime_folder: /tmp/files
 
   roles:
-    - init
+    - role: init
+      vars:
+        var_firewall_policy_list:
+          - { name: 'http', type: tcp, port: 80, state: enabled, permanent: yes }
+          - { name: 'https', type: tcp, port: 443, state: enabled, permanent: yes }
+
+
+    - role: install_git
+      vars:
+        var_git_version: 2.25.1
+
+
+    - role: install_redis
+
+
+    - role: install_openresty
+      vars:
+        var_openresty_prefix: /usr/local/openresty
+        var_openresty_server_tag: openresty
