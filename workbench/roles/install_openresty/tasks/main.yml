@@ -1,0 +1,46 @@
+---
+- import_tasks: init.env.yml
+
+- import_tasks: init.fetch.yml
+
+- import_tasks: init.patch.yml
+
+- import_tasks: init.module.yml
+
+- import_tasks: init.module.libgd.yml
+
+
+- name: openresty -> configure
+  shell: |
+    ./configure \
+      --prefix={{ var_openresty_prefix }} \
+      --with-luajit \
+      --with-threads \
+      --with-pcre-jit \
+      --with-http_v2_module \
+      --with-http_sub_module \
+      --with-http_realip_module \
+      --with-pcre=bundle/pcre-{{ var_pcre_version }} \
+      --with-openssl=bundle/openssl-{{ var_openssl_version }} \
+      {{ var_openresty_extra_module_list_str }} \
+      --with-http_image_filter_module
+
+  args:
+    chdir: '{{ var_runtime_folder }}/{{ var_openresty_dir }}'
+
+
+- name: openresty -> compile
+  make:
+    target: all
+    chdir: '{{ var_runtime_folder }}/{{ var_openresty_dir }}'
+    params:
+      --jobs: '{{ ansible_processor_vcpus }}'
+
+
+- name: openresty -> install
+  make:
+    target: install
+    chdir: '{{ var_runtime_folder }}/{{ var_openresty_dir }}'
+
+
+- import_tasks: init.link.yml

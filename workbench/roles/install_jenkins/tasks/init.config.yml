@@ -1,0 +1,15 @@
+---
+- block:
+  - name: jenkins -> group -> docker -> fetch env
+    getent:
+      database: group
+      key: docker
+      fail_key: no
+
+
+  - name: jenkins -> group -> docker -> join
+    user:
+      name: '{{ var_jenkins_user }}'
+      groups: docker
+      append: yes
+    when: getent_group.docker is not none

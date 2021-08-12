@@ -1,0 +1,6 @@
+---
+# jenkins configure
+var_jenkins_name: 'jenkins-{{ var_jenkins_version }}.noarch.rpm'
+var_jenkins_url_download: '{{ var_jenkins_url }}/{{ var_jenkins_name }}'
+var_jenkins_check_sum_256: '{{ var_jenkins_check_sum_256_list[ var_jenkins_version ] }}'
+var_jenkins_java_options: '{{ var_jenkins_java_extra_options }} {{ var_jenkins_java_memory_option }}'

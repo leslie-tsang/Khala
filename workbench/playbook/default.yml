@@ -1,0 +1,22 @@
+---
+- hosts: target
+  vars_files:
+    - /root/workbench/env_vars/vars_common.yml
+
+  roles:
+    - role: init
+    - role: install_git
+    - role: install_docker
+      vars:
+        var_docker_network_mtu: 1500
+    - role: install_redis
+    - role: install_openresty
+      vars:
+        var_openresty_prefix: /usr/local/openresty
+        var_openresty_server_tag: "openresty"
+    # Load Balance
+    - role: install_haproxy
+    # CI & CD
+    - role: install_jenkins
+      vars:
+        var_jenkins_update_center: "http://mirror.core.local/jenkins/updates/stable/update-center.json"

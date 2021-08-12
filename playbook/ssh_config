@@ -1,7 +1,0 @@
-
-Host jumper
-    User root
-    Port 22
-    Hostname example.com
-    ProxyCommand none
-    BatchMode yes

@@ -1,0 +1,21 @@
+---
+# build setting
+var_git_prefix: /usr
+
+var_env_package_list:
+  - { name: curl-devel }
+  - { name: zlib-devel }
+  - { name: perl-ExtUtils-MakeMaker }
+
+var_src_list:
+  - { name: 'git', src: '{{ var_git_name }}', url: '{{ var_git_url_download }}', dest: '{{ var_runtime_folder }}/{{ var_git_name }}', final_dest: '{{ var_runtime_folder }}', checksum: '{{ var_git_check_sum_256 }}' }
+
+# git version setting
+var_git_url: https://mirrors.edge.kernel.org/pub/software/scm/git
+var_git_version: 2.32.0
+var_git_check_sum_256_list: {
+  2.26.2: e1c17777528f55696815ef33587b1d20f5eec246669f3b839d15dbfffad9c121,
+  2.29.2: 869a121e1d75e4c28213df03d204156a17f02fce2dc77be9795b327830f54195,
+  2.31.1: 46d37c229e9d786510e0c53b60065704ce92d5aedc16f2c5111e3ed35093bfa7,
+  2.32.0: 6038f06d396ba9dab2eee541c7db6e7f9f847f181ec62f3d8441893f8c469398,
+}

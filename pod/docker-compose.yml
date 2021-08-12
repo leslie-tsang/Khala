@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  ansible:
+    hostname: ansible
+    build:
+      context: pod/ansible
+      args:
+        VAR_ANSIBLE_URL: https://releases.ansible.com/ansible/rpm/release/epel-7-x86_64
+        VAR_ANSIBLE_VERSION: ansible-2.9.24-1.el7.ans.noarch.rpm
+
+    env_file:
+      - workbench/env/env_common.env
+      - workbench/env/env_inventory.env
+      - workbench/${PROJECT_WORKBENCH_DIR}/env/common.env
+
+    environment:
+      - ENTRYPOINT_MODE=e
+
+    command: ["bash"]
+    working_dir: /root/workbench
+    volumes:
+      - ./pod/ansible/entrypoint.sh:/entrypoint.sh
+      - ./workbench/${PROJECT_WORKBENCH_DIR}/ssh/config:/root/.ssh/config
+      - ./workbench/${PROJECT_WORKBENCH_DIR}/ssh/private_key:/root/.ssh/private_key
+      - ./workbench:/root/workbench

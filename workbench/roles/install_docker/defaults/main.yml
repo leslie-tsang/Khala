@@ -1,0 +1,93 @@
+---
+# os setting
+var_os_centos_version: 7
+
+# docker version setting
+var_docker_url: 'https://download.docker.com/linux/centos/{{ var_os_centos_version }}/x86_64/stable/Packages'
+var_docker_compose_url: https://github.com/docker/compose/releases/download
+var_docker_root_dir: /var/lib/docker
+var_docker_registry_mirrors_url: ''
+
+var_docker_ce_version_basic: 20.10.8-3
+var_docker_ce_cli_version_basic: '{{ var_docker_ce_version_basic }}'
+var_docker_ce_rootless_extras_version_basic: '{{ var_docker_ce_version_basic }}'
+var_docker_containerd_version_basic: 1.4.9-3.1
+var_docker_compose_version: 1.29.2
+var_docker_plugin_scan_version_basic: 0.8.0-3
+
+# docker daemon setting
+var_docker_network_mtu: 1500
+
+var_docker_containerd_check_sum_256_list: {
+  1.3.9-3.1.el7: 548d6938110d0f8ffe320e1730407f1d16bf4d31978ad3cf834c0b6cbd394a1a,
+  1.4.3-3.1.el7: ac0217a3992a0a7da28e6c3e956c25681bc36fcf5218db8026b35e56202816ba,
+  1.4.4-3.1.el7: d744f06df2eeaa4658b0fe5991fa3b219d5421fa70ae2f2c66bcdd0dfe539988,
+  1.4.6-3.1.el7: efee14780cb62cfe01c6acf3c71029e337813d47ac8d256a0736699a069cd865,
+  1.4.8-3.1.el7: 9d278c0b4f62cc0b774da2786767c856d58b29cb6849d55a74d2cc4c6b5def1b,
+  1.4.9-3.1.el7: 11edfdf95e4f6390b15007220ad2d8ef1d041f31fc753a0a4b3f52534bbe3b2e,
+}
+
+var_docker_ce_cli_check_sum_256_list: {
+  19.03.14-3.el7: 77c4c02d748d0d484c0e8a5c46f7d005967a6ced7b5b46cb69e2794c46b88854,
+  20.10.1-3.el7: 36ac1ab66b9ef53638df1175ad046ae13e12eb9827bf04b356037f18b95e118b,
+  20.10.2-3.el7: cb7020d8608202fa0782d2a9929364172018070bb62230516ea3cdc4da2b168e,
+  20.10.3-3.el7: ff8b27fbbb88ad86e5373a88b51a6e63bcd361d900f10c2199075cf814f7c1f3,
+  20.10.5-3.el7: 1ce807b3d1b21ec3a327dd48aefaae692bfb8d4b1aeacf5cadb832697b9176f8,
+  20.10.6-3.el7: 27ee0196bbb2c9d9579c46565f59c33930c6b9d168adf3a769057948f05212a2,
+  20.10.7-3.el7: cd598ad0d73b246ac2461eecbc6658951f6d267d6bcb5d699f49deecea80cfd0,
+  20.10.8-3.el7: 337c92be121f5a9ebe2bb5157787185dc897fb97eb38a7c8214ef4178d21d068,
+}
+
+var_docker_ce_rootless_extras_check_sum_256_list: {
+  20.10.1-3.el7: af8dc630b0ad3c12c3472ab9cb1a840b07cfe98a939e6a31545367cc1b2df005,
+  20.10.2-3.el7: 16dd8dac548046877a996428f95e2bf58bce8a388fea81206a77e21116b93bf7,
+  20.10.3-3.el7: ad9f4f4bd71f5278881089bd477e3ea0dbcb87079bd7917943a58f2aeb59d5cb,
+  20.10.5-3.el7: dd24edfc33b174b02db94daca3f7ce9796c09557e3d046cdb82b7d2ed7349a81,
+  20.10.6-3.el7: 9af012a0373f42b1d216d0150ed03034e5924411df46f59a3b9a19b8a37de7b2,
+  20.10.7-3.el7: 60392375ebf66cdb95e5b3dc999205bda0b3ae12bdd9d85d1891904dffed25d5,
+  20.10.8-3.el7: 5795fae2d13ac614d7004528abecd6c068d4611c16ecfe331f00e1f5c21d6896,
+}
+
+var_docker_ce_check_sum_256_list: {
+  19.03.14-3.el7: d22e50b58669a4c53b4c5e41128d885f4a63d37436d71d31fe12ac81306aa9ea,
+  20.10.1-3.el7: 5cce55a196966bcde729f0e5688b27dbdcc186f3a78b9330e6f2f483e25c66c5,
+  20.10.2-3.el7: 2fa9fbe76f92c56982da17050c40c94187e50a00713933271e0cf764ce02c9dc,
+  20.10.3-3.el7: 4af0191d6b80f5a0b35cf7ffd02ab90caa6528f62c720cb62666183196b76be3,
+  20.10.5-3.el7: 4ca0c3434e32584075823b98786a40bc9dfe197adcb5eff871369b672adba935,
+  20.10.6-3.el7: 64b9912f9364fedc1fffcde42f4569502ad8f283ff23abc5b8d178543b2abaa4,
+  20.10.7-3.el7: 300109b3f7082b01760fffb89360381cab9802804042ef6500826101ad680fb0,
+  20.10.8-3.el7: 85cc7b99e8b697febb287bbe77fddd69b8992622a51b827b978d35dc2386187a,
+}
+
+var_docker_plugin_scan_check_sum_256_list: {
+  0.7.0-3.el7: 740a46de64a1ac60c2c930a5b9f4937c930bcea968b9ea9f44447bb8efbb9ccc,
+  0.8.0-3.el7: 4f32138b5be33f7d95838416132f14e1690b1614870ac4b71d03eaed8129183f,
+}
+
+var_docker_compose_check_sum_256_list: {
+  1.27.4: 04216d65ce0cd3c27223eab035abfeb20a8bef20259398e3b9d9aa8de633286d,
+  1.28.5: 46406eb5d8443cc0163a483fcff001d557532a7fad5981e268903ad40b75534c,
+  1.29.1: 8097769d32e34314125847333593c8edb0dfc4a5b350e4839bef8c2fe8d09de7,
+  1.29.2: f3f10cf3dbb8107e9ba2ea5f23c1d2159ff7321d16f0a23051d68d8e2547b323,
+}
+
+var_src_list:
+  - { name: 'docker-ce', extract: false, src: '{{ var_docker_ce_name }}', url: '{{ var_docker_url }}/{{ var_docker_ce_name }}', dest: '{{ var_runtime_folder }}/{{ var_docker_ce_name }}', checksum: '{{ var_docker_ce_check_sum_256 }}' }
+  - { name: 'docker-ce-cli', extract: false, src: '{{ var_docker_ce_cli_name }}', url: '{{ var_docker_url }}/{{ var_docker_ce_cli_name }}', dest: '{{ var_runtime_folder }}/{{ var_docker_ce_cli_name }}', checksum: '{{ var_docker_ce_cli_check_sum_256 }}' }
+  - { name: 'docker-ce-rootless', extract: false, src: '{{ var_docker_ce_rootless_extras_name }}', url: '{{ var_docker_url }}/{{ var_docker_ce_rootless_extras_name }}', dest: '{{ var_runtime_folder }}/{{ var_docker_ce_rootless_extras_name }}', checksum: '{{ var_docker_ce_rootless_extras_check_sum_256 }}' }
+  - { name: 'docker-containerd', extract: false, src: '{{ var_docker_containerd_name }}', url: '{{ var_docker_url }}/{{ var_docker_containerd_name }}', dest: '{{ var_runtime_folder }}/{{ var_docker_containerd_name }}', checksum: '{{ var_docker_containerd_check_sum_256 }}' }
+  - { name: 'docker-plugin-scan', extract: false, src: '{{ var_docker_plugin_scan_name }}', url: '{{ var_docker_url }}/{{ var_docker_plugin_scan_name }}', dest: '{{ var_runtime_folder }}/{{ var_docker_plugin_scan_name }}', checksum: '{{ var_docker_plugin_scan_check_sum_256 }}' }
+  - { name: 'docker-compose', extract: false, src: 'docker-compose/{{ var_docker_compose_version }}/{{ var_docker_docker_compose_name }}', url: '{{ var_docker_compose_url_download }}/{{ var_docker_docker_compose_name }}', dest: '{{ var_runtime_folder }}/{{ var_docker_docker_compose_name }}', checksum: '{{ var_docker_compose_check_sum_256 }}' }
+  # extend module
+  - { name: 'ctop', extract: false, src: 'ctop/{{ var_docker_ctop_name }}', url: '{{ var_docker_ctop_url_download }}/{{ var_docker_ctop_name }}', dest: '{{ var_runtime_folder }}/{{ var_docker_ctop_name }}', checksum: '{{ var_docker_ctop_check_sum_256 }}' }
+
+
+# docker extend module
+var_docker_ctop_url: https://github.com/bcicen/ctop/releases/download
+
+var_docker_ctop_version: 0.7.5
+
+var_docker_ctop_check_sum_256_list: {
+  0.7.4: 43d41ed0b2bb5cfc2aaa7b7fdd2d6cb515f6d88adc40ff40e3ec1f560e8a4413,
+  0.7.5: e2949316cdfe360374b76d45ea512f603b42c0db693a70a6a4c11624aa200b8c,
+}

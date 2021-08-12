@@ -1,0 +1,8 @@
+
+Host jumper
+    User root
+    Port 22
+    Hostname gate.example.com
+    BatchMode yes
+    ProxyCommand none
+    IdentityFile=private_gateway.pem

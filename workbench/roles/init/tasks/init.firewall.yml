@@ -1,0 +1,30 @@
+---
+- name: firewall -> init -> launch
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+
+- name: firewall -> init -> port
+  firewalld:
+    port: '{{ item.port }}/{{ item.type }}'
+    state: '{{ item.state }}'
+    permanent: '{{ item.permanent }}'
+    offline: yes
+    immediate: yes
+  with_items: '{{ var_firewall_policy_list }}'
+  when:
+    - item.type != "service"
+
+
+- name: firewall -> init -> service
+  firewalld:
+    service: '{{ item.name }}'
+    state: '{{ item.state }}'
+    permanent: '{{ item.permanent }}'
+    offline: yes
+    immediate: yes
+  with_items: '{{ var_firewall_policy_list }}'
+  when:
+    - item.type == "service"

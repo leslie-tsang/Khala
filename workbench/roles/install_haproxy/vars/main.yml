@@ -1,0 +1,5 @@
+---
+var_haproxy_dir: 'haproxy-{{ var_haproxy_version }}'
+var_haproxy_name: 'haproxy-{{ var_haproxy_version }}.tar.gz'
+var_haproxy_url_download: '{{ var_haproxy_url }}/{{ var_haproxy_name }}'
+var_haproxy_check_sum_256: '{{ var_haproxy_check_sum_256_list[ var_haproxy_version ] }}'

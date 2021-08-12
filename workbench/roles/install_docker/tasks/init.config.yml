@@ -1,0 +1,25 @@
+---
+- block:
+  - name: docker -> group -> jenkins -> fetch env
+    getent:
+      database: passwd
+      key: jenkins
+      fail_key: no
+
+
+  - name: docker -> group -> jenkins -> join
+    user:
+      name: jenkins
+      groups: docker
+      append: yes
+    notify:
+      - docker -> restart
+    when: getent_passwd.jenkins is not none
+
+
+- name: docker -> init private repo
+  template:
+    src: docker_daemon.json.j2
+    dest: /etc/docker/daemon.json
+  notify:
+    - docker -> restart

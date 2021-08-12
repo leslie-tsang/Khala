@@ -1,0 +1,115 @@
+---
+- name: libgd -> libs -> upload and extract
+  unarchive:
+    src: '{{ item.src | format(item.version) }}'
+    dest: '{{ item.dest }}'
+  with_items: '{{ var_openresty_libgd_src_list }}'
+
+
+# libgd -> libpng
+- name: libgd -> libpng -> configure
+  shell: |
+    ./configure
+  args:
+    chdir: '{{ var_runtime_folder }}/libpng-1.6.37'
+
+
+- name: libgd -> libpng -> compile
+  make:
+    target: all
+    chdir: '{{ var_runtime_folder }}/libpng-1.6.37'
+    params:
+      --jobs: '{{ ansible_processor_vcpus }}'
+
+
+- name: libgd -> libpng -> install
+  make:
+    target: install
+    chdir: '{{ var_runtime_folder }}/libpng-1.6.37'
+
+
+# libgd -> libjpeg
+- name: libgd -> libjpeg -> configure
+  shell: |
+    ./configure
+  args:
+    chdir: '{{ var_runtime_folder }}/jpeg-9d'
+
+
+- name: libgd -> libjpeg -> compile
+  make:
+    target: all
+    chdir: '{{ var_runtime_folder }}/jpeg-9d'
+    params:
+      --jobs: '{{ ansible_processor_vcpus }}'
+
+
+- name: libgd -> libjpeg -> install
+  make:
+    target: install
+    chdir: '{{ var_runtime_folder }}/jpeg-9d'
+
+
+# libgd -> libwebp
+- name: libgd -> libwebp -> configure
+  shell: |
+    ./configure
+  args:
+    chdir: '{{ var_runtime_folder }}/libwebp-1.0.3'
+
+
+- name: libgd -> libwebp -> compile
+  make:
+    target: all
+    chdir: '{{ var_runtime_folder }}/libwebp-1.0.3'
+    params:
+      --jobs: '{{ ansible_processor_vcpus }}'
+
+
+- name: libgd -> libwebp -> install
+  make:
+    target: install
+    chdir: '{{ var_runtime_folder }}/libwebp-1.0.3'
+
+
+# libgd 
+- name: libgd -> configure
+  shell: |
+    ./configure \
+      --prefix=/usr \
+      --with-png=/usr/local
+
+  args:
+    chdir: '{{ var_runtime_folder }}/libgd-2.2.5'
+
+
+- name: libgd -> compile
+  make:
+    target: all
+    chdir: '{{ var_runtime_folder }}/libgd-2.2.5'
+    params:
+      --jobs: '{{ ansible_processor_vcpus }}'
+
+
+- name: libgd -> install
+  make:
+    target: install
+    chdir: '{{ var_runtime_folder }}/libgd-2.2.5'
+
+
+- name: libgd -> link -> prefetch
+  stat:
+    path: '/usr/lib64/libgd.so.3'
+    checksum_algorithm: sha256
+  register: var_libgd
+
+
+- name: libgd -> link
+  file:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    state: link
+  with_items:
+    - { src: /usr/lib/libgd.so.3 , dest: /usr/lib64/libgd.so.3 }
+  when:
+    - var_libgd.stat.exists == false

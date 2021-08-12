@@ -1,0 +1,18 @@
+---
+- import_tasks: init.env.yml
+
+- import_tasks: init.fetch.yml
+
+
+- name: redis -> compile
+  shell: |
+    scl enable devtoolset-9 -- make
+  args:
+    chdir: '{{ var_runtime_folder }}/{{ var_redis_dir }}'
+
+- name: redis -> install
+  make:
+    target: '{{ item.target }}'
+    chdir: '{{ item.dir }}'
+  with_items:
+    - { target: install, dir: '{{ var_runtime_folder }}/{{ var_redis_dir }}' }

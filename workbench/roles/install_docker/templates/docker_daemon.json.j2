@@ -1,0 +1,8 @@
+{
+  "data-root": "{{ var_docker_root_dir }}",
+{% if var_docker_registry_mirrors_url != '' %}
+  "registry-mirrors": ["{{ var_docker_registry_mirrors_url }}"],
+{% endif %}
+  "mtu": {{ var_docker_network_mtu }},
+  "ipv6": false
+}

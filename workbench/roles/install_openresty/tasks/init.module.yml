@@ -1,0 +1,65 @@
+---
+- name: openresty -> patch -> module env
+  unarchive:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items: '{{ var_openresty_extra_module_list }}'
+  when:
+    - item.enable
+
+
+- name: openresty -> patch -> module -> var
+  set_fact:
+    var_openresty_extra_module_list_str: "{{ var_openresty_extra_module_list | selectattr('enable', 'match', 'True') | map(attribute='folder') | map('regex_replace', '^(.*)$', '--add-module=bundle/\\1') | join(' ') }}"
+
+
+- name: openresty -> module -> geoip2 -> check
+  set_fact:
+    var_openresty_module_http_geoip2: true
+  with_items: '{{ var_openresty_extra_module_list }}'
+  when:
+    - item.enable
+    - item.name == "ngx_http_geoip2_module"
+
+
+- block:
+  - name: openresty -> module -> geoip -> extract
+    unarchive:
+      src: '{{ item.src }}'
+      dest: '{{ item.dest }}'
+    with_items:
+      - { src: 'module/core/ngx_http_geoip2/libmaxminddb-1.6.0.tar.gz', dest: '{{ var_runtime_folder }}' }
+
+  - name: openresty -> module -> geoip -> configure
+    shell: |
+      ./configure --prefix=/usr
+    args:
+      chdir: '{{ var_runtime_folder }}/libmaxminddb-1.6.0'
+
+  - name: openresty -> module -> geoip -> compile
+    make:
+      target: all
+      chdir: '{{ var_runtime_folder }}/libmaxminddb-1.6.0'
+      params:
+        --jobs: '{{ ansible_processor_vcpus }}'
+
+  - name: openresty -> module -> geoip -> check
+    make:
+      target: check
+      chdir: '{{ var_runtime_folder }}/libmaxminddb-1.6.0'
+      params:
+        --jobs: '{{ ansible_processor_vcpus }}'
+
+  - name: openresty -> module -> geoip -> install
+    make:
+      target: install
+      chdir: '{{ var_runtime_folder }}/libmaxminddb-1.6.0'
+      params:
+        --jobs: '{{ ansible_processor_vcpus }}'
+
+  - name: openresty -> module -> geoip -> configure
+    shell: |
+      ldconfig
+
+  when:
+    - var_openresty_module_http_geoip2

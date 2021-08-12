@@ -1,0 +1,27 @@
+---
+# jenkins runtime setting
+var_jenkins_port: 8080
+var_jenkins_user: jenkins
+var_jenkins_home: /var/lib/jenkins
+
+var_jenkins_java_extra_options: '-Djava.awt.headless=true -Dhudson.model.DownloadService.noSignatureCheck=true '
+var_jenkins_java_memory_option: '-Xms512m -Xmx1024m'
+
+var_env_package_list:
+  - { name: git }
+  - { name: java }
+
+var_src_list:
+  - { name: 'jenkins', extract: false, src: '{{ var_jenkins_name }}', url: '{{ var_jenkins_url_download }}', dest: '{{ var_runtime_folder }}/{{ var_jenkins_name }}', final_dest: '{{ var_runtime_folder }}', checksum: '{{ var_jenkins_check_sum_256 }}' }
+
+
+# jenkins configure
+var_jenkins_url: https://pkg.jenkins.io/redhat-stable
+var_jenkins_version: 2.289.1-1.1
+var_jenkins_update_center: "http://mirror.core.local/jenkins/updates/stable/update-center.json"
+
+var_jenkins_check_sum_256_list: {
+  2.263.3-1.1: 8632ebb1c3ded81c30f748c893d8317777abdae10e64cc898ab28a794ba83188,
+  2.277.4-1.1: d439133bbe031f2d3eb9837d6fae50642c4d4e09408f437826fa842a254a82a9,
+  2.289.1-1.1: 04e6b41590e2c487cd2257b95d5fa414c9186145a9042eb44d6726c1eef1d28e,
+}

@@ -1,0 +1,17 @@
+---
+# pcre setting
+var_pcre_name: 'pcre-{{ var_pcre_version }}.tar.gz'
+var_pcre_url_download: '{{ var_pcre_url }}/{{ var_pcre_name }}'
+var_pcre_check_sum_256: '{{ var_pcre_check_sum_256_list[ var_pcre_version ] }}'
+
+# openssl setting
+var_openssl_name: 'openssl-{{ var_openssl_version }}.tar.gz'
+var_openssl_url_download: '{{ var_openssl_url }}/{{ var_openssl_name }}'
+var_openssl_check_sum_256: '{{ var_openssl_check_sum_256_list[ var_openssl_version ] }}'
+
+# openresty setting
+var_openresty_dir: 'openresty-{{ var_openresty_version }}'
+var_openresty_bundle_dir: 'openresty-{{ var_openresty_version }}/bundle'
+var_openresty_name: 'openresty-{{ var_openresty_version }}.tar.gz'
+var_openresty_url_download: '{{ var_openresty_url }}/{{ var_openresty_name }}'
+var_openresty_check_sum_256: '{{ var_openresty_check_sum_256_list[ var_openresty_version ] }}'

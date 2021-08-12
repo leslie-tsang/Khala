@@ -1,0 +1,24 @@
+---
+- import_tasks: init.fetch.yml
+
+
+- name: jenkins -> install
+  yum:
+    name: '{{ item.name }}'
+    state: present
+  with_items:
+    - { name: '{{ var_runtime_folder }}/{{ var_jenkins_name }}' }
+
+
+- name: jenkins -> configure -> init
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: jenkins.j2, dest: /etc/sysconfig/jenkins }
+    - { src: hudson.model.UpdateCenter.xml.j2, dest: '{{ var_jenkins_home }}/hudson.model.UpdateCenter.xml' }
+  notify:
+    - jenkins -> restart
+
+
+- import_tasks: init.config.yml

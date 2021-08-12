@@ -1,0 +1,11 @@
+---
+- name: system -> info
+  debug:
+    msg:
+      - 'HOST: {{ inventory_hostname }}'
+      - 'HOSTNAME: {{ ansible_hostname }}'
+      - 'IP: {{ ansible_default_ipv4.address | default("not found") }}'
+      - 'OS: {{ ansible_distribution }} -> {{ ansible_distribution_version }}'
+      - 'CPU: {{ ansible_processor_vcpus }}'
+      - 'Remote fetch: {{ var_remote_fetch }}'
+      - 'RT_Folder: {{ var_runtime_folder }}'

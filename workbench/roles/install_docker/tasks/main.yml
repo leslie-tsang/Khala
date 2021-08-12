@@ -1,0 +1,37 @@
+---
+- import_tasks: init.fetch.yml
+
+
+- name: docker -> install
+  yum:
+    name: '{{ item.name }}'
+    state: present
+  with_items:
+    - { name: '{{ var_runtime_folder }}/{{ var_docker_containerd_name }}' }
+    - { name: [ '{{ var_runtime_folder }}/{{ var_docker_ce_cli_name }}', '{{ var_runtime_folder }}/{{ var_docker_plugin_scan_name }}' ] }
+    - { name: [ '{{ var_runtime_folder }}/{{ var_docker_ce_name }}', '{{ var_runtime_folder }}/{{ var_docker_ce_rootless_extras_name }}' ] }
+  notify:
+    - docker -> restart
+
+
+- name: docker -> docker-compose -> install
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '0750'
+    remote_src: yes
+  with_items:
+    - { name: 'docker-compose', src: '{{ var_runtime_folder }}/{{ var_docker_docker_compose_name }}', dest: '/usr/bin/docker-compose' }
+    # extend module
+    - { name: 'ctop', src: '{{ var_runtime_folder }}/{{ var_docker_ctop_name }}', dest: '/usr/bin/ctop' }
+
+
+- name: docker -> launch
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+
+- import_tasks: init.config.yml
+

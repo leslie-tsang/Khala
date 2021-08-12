@@ -1,0 +1,49 @@
+---
+- name: fetch -> env
+  stat:
+    path: '{{ item.dest }}'
+    checksum_algorithm: sha256
+  with_items: '{{ var_src_list }}'
+  register: var_fetch_state
+
+
+- name: fetch -> check
+  set_fact:
+    var_fetch_update: true
+  when:
+    - item.stat.exists == false or item.stat.mimetype == "inode/directory" or item.stat.checksum != item.item.checksum
+  with_items: '{{ var_fetch_state.results }}'
+
+
+- block:
+    - name: fetch -> upload
+      copy:
+        src: '{{ item.src }}'
+        dest: '{{ item.dest }}'
+      with_items: '{{ var_src_list }}'
+      when:
+        - var_remote_fetch == false
+
+    - name: fetch -> download
+      get_url:
+        url: '{{ item.url }}'
+        dest: '{{ item.dest }}'
+        checksum: sha256:{{ item.checksum }}
+        mode: 0644
+        timeout: 60
+      with_items: '{{ var_src_list }}'
+      when:
+        - var_remote_fetch != false
+
+  when:
+    - var_fetch_update is defined and var_fetch_update
+
+
+- name: fetch -> extract
+  unarchive:
+    src: '{{ item.dest }}'
+    dest: '{{ item.final_dest }}'
+    remote_src: yes
+  with_items: '{{ var_src_list }}'
+  when:
+    - item.extract is not defined or item.extract

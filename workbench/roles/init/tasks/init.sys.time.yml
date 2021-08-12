@@ -1,0 +1,4 @@
+---
+- name: system -> init timezone
+  timezone:
+    name: '{{ var_timezone }}'

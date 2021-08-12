@@ -1,0 +1,10 @@
+---
+- name: system -> swap -> turn off
+  shell: /usr/sbin/swapoff -a
+
+
+- name: system -> swap -> unmount
+  mount:
+    name: swap
+    fstype: swap
+    state: absent

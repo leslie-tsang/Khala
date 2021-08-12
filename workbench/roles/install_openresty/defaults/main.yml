@@ -1,0 +1,82 @@
+---
+# build setting
+var_openresty_prefix: /usr/local/openresty
+var_openresty_server_tag: openresty
+
+# init setting
+var_nginx_test: yes
+
+# pcre setting
+var_pcre_url: https://ftp.pcre.org/pub/pcre
+var_pcre_version: 8.45
+var_pcre_check_sum_256_list: {
+  8.43: 0b8e7465dc5e98c757cc3650a20a7843ee4c3edf50aaf60bb33fd879690d2c73,
+  8.44: aecafd4af3bd0f3935721af77b889d9024b2e01d96b58471bd91a3063fb47728,
+  8.45: 4e6ce03e0336e8b4a3d6c2b70b1c5e18590a5673a98186da90d4f33c23defc09,
+}
+
+# openssl setting
+var_openssl_url: https://www.openssl.org/source
+var_openssl_version: 1.1.1k
+var_openssl_check_sum_256_list: {
+  1.1.0l: 74a2f756c64fd7386a29184dc0344f4831192d61dc2481a93a4c5dd727f41148,
+  1.1.1d: 1e3a91bc1f9dfce01af26026f856e064eab4c8ee0a8f457b5ae30b40b8b711f2,
+  1.1.1f: 186c6bfe6ecfba7a5b48c47f8a1673d0f3b0e5ba2e25602dd23b629975da3f35,
+  1.1.1g: ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46,
+  1.1.1i: e8be6a35fe41d10603c3cc635e93289ed00bf34b79671a3a4de64fcee00d5242,
+  1.1.1k: 892a0875b9872acd04a9fde79b1f943075d5ea162415de3047c327df33fbaee5,
+}
+
+# openresty setting
+var_openresty_url: https://openresty.org/download
+var_openresty_version: 1.19.9.1
+var_openresty_check_sum_256_list: {
+  1.15.8.2: 436b4e84d547a97a18cf7a2522daf819da8087b188468946b5a89c0dd1ca5d16,
+  1.15.8.3: b68cf3aa7878db16771c96d9af9887ce11f3e96a1e5e68755637ecaff75134a8,
+  1.17.8.1: a203fdbbc516f2eccd57272cb693e28ceb249ca858094598c8cab9a9b58ec5e5,
+  1.17.8.2: 2f321ab11cb228117c840168f37094ee97f8f0316eac413766305409c7e023a0,
+  1.19.3.1: f36fcd9c51f4f9eb8aaab8c7f9e21018d5ce97694315b19cacd6ccf53ab03d5d,
+  1.19.3.2: ce40e764990fbbeb782e496eb63e214bf19b6f301a453d13f70c4f363d1e5bb9,
+  1.19.9.1: 576ff4e546e3301ce474deef9345522b7ef3a9d172600c62057f182f3a68c1f6,
+}
+
+
+# openresty module
+# libgd
+var_libgd_prefix: libs/libgd
+
+var_env_package_list:
+  - { name: patch }
+  - { name: zlib-devel }
+  - { name: readline-devel }
+  - { name: perl-Digest-MD5 } # for OPM
+
+  # nginx-test
+  - { name: perl-CPAN, enable: '{{ var_nginx_test }}' }
+  - { name: perl-Crypt-SSLeay, enable: '{{ var_nginx_test }}' }
+  - { name: perl-LWP-Protocol-https, enable: '{{ var_nginx_test }}' }
+
+
+var_src_list:
+  - { name: 'openresty', src: '{{ var_openresty_name }}', url: '{{ var_openresty_url_download }}', dest: '{{ var_runtime_folder }}/{{ var_openresty_name }}', final_dest: '{{ var_runtime_folder }}', checksum: '{{ var_openresty_check_sum_256 }}' }
+  - { name: 'openresty -> pcre', src: 'libs/pcre/{{ var_pcre_name }}', url: '{{ var_pcre_url_download }}', dest: '{{ var_runtime_folder }}/{{ var_pcre_name }}', final_dest: '{{ var_runtime_folder }}/{{ var_openresty_bundle_dir }}', checksum: '{{ var_pcre_check_sum_256 }}' }
+  - { name: 'openresty -> openssl', src: 'libs/openssl/{{ var_openssl_name }}', url: '{{ var_openssl_url_download }}', dest: '{{ var_runtime_folder }}/{{ var_openssl_name }}', final_dest: '{{ var_runtime_folder }}/{{ var_openresty_bundle_dir }}', checksum: '{{ var_openssl_check_sum_256 }}' }
+
+
+var_app_link:
+  - { src: '{{ var_openresty_prefix }}/bin/resty' , dest: /usr/local/bin/resty }
+  - { src: '{{ var_openresty_prefix }}/bin/openresty' , dest: /usr/local/bin/nginx }
+  - { src: '{{ var_openresty_prefix }}/luajit/bin/luajit' , dest: /usr/local/bin/luajit }
+
+
+var_openresty_libgd_src_list:
+  - { name: 'libdg - > liggd', version: '2.2.5', src: '{{ var_libgd_prefix }}/libgd-%s.tar.gz', dest: '{{ var_runtime_folder }}' }
+  - { name: 'libdg - > libpng', version: '1.6.37', src: '{{ var_libgd_prefix }}/libpng-%s.tar.gz', dest: '{{ var_runtime_folder }}' }
+  - { name: 'libdg - > libjpeg', version: '9d', src: '{{ var_libgd_prefix }}/jpegsrc.v%s.tar.gz', dest: '{{ var_runtime_folder }}' }
+  - { name: 'libdg - > libwebp', version: '1.0.3', src: '{{ var_libgd_prefix }}/libwebp-%s.tar.gz', dest: '{{ var_runtime_folder }}' }
+
+
+var_openresty_extra_module_list:
+  - { name: 'ngx_cache_purge', enable: yes, folder: "ngx_cache_purge-master", src: 'module/core/ngx_cache_purge/ngx_cache_purge-master.zip', dest: '{{ var_runtime_folder }}/{{ var_openresty_bundle_dir }}' }
+  - { name: 'lua-var-nginx-module', enable: no, folder: "lua-var-nginx-module-0.4", src: 'module/core/lua-var-nginx-module-0.4.tar.gz', dest: '{{ var_runtime_folder }}/{{ var_openresty_bundle_dir }}' }
+  - { name: 'ngx_http_geoip2_module', enable: yes, folder: "ngx_http_geoip2_module-master", src: 'module/core/ngx_http_geoip2/ngx_http_geoip2_module-master.zip', dest: '{{ var_runtime_folder }}/{{ var_openresty_bundle_dir }}' }

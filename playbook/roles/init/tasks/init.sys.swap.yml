@@ -1,9 +1,0 @@
----
-- name: system -> swap -> turn off
-  shell: swapoff -a
-
-- name: system -> swap -> unmount
-  mount:
-    name: swap
-    fstype: swap
-    state: absent

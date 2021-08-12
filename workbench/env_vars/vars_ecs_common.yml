@@ -1,0 +1,4 @@
+---
+var_server_consul_master_list: "{{ groups['target_consul_server'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | list }}"
+
+var_server_nomad_master_list: "{{ groups['target_nomad_server'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | list }}"

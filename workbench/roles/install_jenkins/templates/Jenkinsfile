@@ -1,0 +1,30 @@
+pipline {
+    agent none
+    agent {
+        docker {
+            image 'alpine:latest'
+            args '-u root'
+            reuseNode true
+        }
+    }
+    environment {
+        BUILD_VERSION = VersionNumber([
+            projectStartDate : '2019-01-01',
+            versionPrefix: '1.0.1',
+            versionNumberString : '$.${BUILD_ID}',
+            worstResultForIncrement: 'SUCCESS'
+        ]);
+    }
+
+    stages {
+        stage {
+            docker {
+                image 'alpine:latest'
+                args '-u root'
+            }
+            steps {
+
+            }
+        }
+    }
+}

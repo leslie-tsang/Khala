@@ -1,0 +1,23 @@
+---
+
+var_env_package_list:
+  - { name: gcc }
+  # 6.0+
+  - { name: centos-release-scl }
+  - { name: devtoolset-9 }
+
+var_src_list:
+  - { name: 'redis', src: '{{ var_redis_name }}', url: '{{ var_redis_url_download }}', dest: '{{ var_runtime_folder }}/{{ var_redis_name }}', final_dest: '{{ var_runtime_folder }}', checksum: '{{ var_redis_check_sum_256 }}' }
+
+
+# version setting
+var_redis_url: http://download.redis.io/releases
+var_redis_version: 6.2.5
+var_redis_check_sum_256_list: {
+  5.0.8: f3c7eac42f433326a8d981b50dba0169fdfaf46abb23fcda2f933a7552ee4ed7,
+  6.0.9: dc2bdcf81c620e9f09cfd12e85d3bc631c897b2db7a55218fd8a65eaa37f86dd,
+  6.2.1: cd222505012cce20b25682fca931ec93bd21ae92cb4abfe742cf7b76aa907520,
+  6.2.3: 98ed7d532b5e9671f5df0825bb71f0f37483a16546364049384c63db8764512b,
+  6.2.4: ba32c406a10fc2c09426e2be2787d74ff204eb3a2e496d87cff76a476b6ae16e,
+  6.2.5: 4b9a75709a1b74b3785e20a6c158cab94cf52298aa381eea947a678a60d551ae,
+}

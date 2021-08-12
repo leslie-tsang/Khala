@@ -1,2 +1,5 @@
 .idea
-playbook/roles/*/files/*
+
+/release
+/workbench/roles/*/files
+/workbench/roles/test

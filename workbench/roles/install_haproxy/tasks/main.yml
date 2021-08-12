@@ -1,0 +1,33 @@
+---
+- import_tasks: init.env.yml
+
+- import_tasks: init.fetch.yml
+
+
+- name: haproxy -> compile
+  make:
+    target: all
+    chdir: '{{ var_runtime_folder }}/{{ var_haproxy_dir }}'
+    params:
+      --jobs: '{{ ansible_processor_vcpus }}'
+      TARGET: linux-glibc
+      USE_PCRE: 1
+      USE_ZLIB: 1
+      USE_OPENSSL: 1
+      USE_SYSTEMD: 1
+
+
+- name: haproxy -> install
+  make:
+    target: install
+    chdir: '{{ var_runtime_folder }}/{{ var_haproxy_dir }}'
+
+
+- name: haproxy -> init server service tempalte
+  template:
+    src: '{{ item.src }}'
+    dest: '/usr/lib/systemd/system/{{ item.dest }}'
+  with_items:
+    - {src: haproxy.service.j2, dest: haproxy.service }
+  notify:
+    - systemd -> reload

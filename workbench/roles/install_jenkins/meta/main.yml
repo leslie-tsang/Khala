@@ -1,0 +1,4 @@
+---
+dependencies:
+  - role: install_git
+  - role: install_java

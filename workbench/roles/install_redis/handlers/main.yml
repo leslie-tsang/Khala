@@ -1,0 +1,7 @@
+---
+- name: system -> clean
+  file:
+    path: '{{ var_runtime_folder }}'
+    state: absent
+  when:
+    - var_clean_up == true

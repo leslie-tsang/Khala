@@ -1,4 +1,0 @@
----
-- name: system -> init timezone
-  timezone:
-    name: Asia/Hong_Kong
